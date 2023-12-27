@@ -146,8 +146,8 @@ if percival_in_play:
 #	players_count += 1
 #	players_playing.append(mordred[0])
 
-print("Good players: ", good_players)
-print("Bad players:  ", bad_players)
+#print("Good players: ", good_players)
+#print("Bad players:  ", bad_players)
 
 if good_players + bad_players > players:
 	print("Error: Too many characters added - %d required, %d entered", players,
@@ -171,7 +171,7 @@ for q in range(players):
 	while True:
 		player_name = input("What is your name? (One word please): ")
 		if player_name and player_name not in player_names:
-			print(player_name, "You are player number", q + 1)
+#			print(player_name, "You are player number", q + 1)
 			player_names.append(player_name)
 			break
 		else:
@@ -199,6 +199,16 @@ for d in range(0, players_count):
 		players_playing_merlin.append(1)
 	else:
 		players_playing_merlin.append(0)
+
+
+players_playing_assassin=[]
+for d in range(0, players_count):
+	if players_playing[d].startswith('Ass'):
+		players_playing_assassin.append(1)
+	else:
+		players_playing_assassin.append(0)
+
+
 
 for i in range(0, players_count):
 	if players_playing[i].startswith('Morg'):
@@ -259,46 +269,51 @@ for z in range(len(player_names)):
 # show each player what character they are
 # TODO - check for duplicate numbers
 
-print("Next step is to ask everyoe their player number and draw a character")
+print("Next step is to ask everyone their player number and draw a character card")
 
 players_remaining = []
 for i in range(0, players_count):
 	players_remaining.append(i + 1)
-print("debug: Players remaining: ", players_remaining)
+#print("debug: Players remaining: ", players_remaining)
 
-while len(players_remaining) != 0:
-	#print("debug: Players remaining: ", players_remaining)
+while len(players_remaining) != 0:#
+	time.sleep(1)
+#	print("debug: Players remaining: ", players_remaining)
 	validentry = 0
 	while validentry == 0:
 		tellstr = input("What is your player number? ")
 		if tellstr.isnumeric():
 			tell = int(tellstr)
-			if tell < players + 1:
+			if tell in players_remaining:
 				validentry = 1
-				players_remaining.remove(tell+1)
-				#print("debug:", tell, "Players remaining: ", players_remaining)
+				players_remaining.remove(tell)
+#				print("debug:", tell, "Players remaining: ", players_remaining)
 			else:
-				print("Error: That number is too high")
+				print("Error: Invalid player number")
 		else:
-			print("Error: YOU NEED TO TYPE IN A NUMBER YOU IDIOT!!!!")
+			print("Error: YOU MUST ENTER A NUMBER")
+			
 		if (tell in players_remaining):
-			print("Valid :-)")
-			input("Everyone else now look away,  and", player_names[tell],
-			      "press enter")
+#			print("Valid :-)")
+			input("Everyone else now look away and press enter")
 			print(players_playing[tell], player_side[tell], end="\r")
 			time.sleep(2)
 
+	if validentry:
 		if players_playing_percival[tell - 1] == 1:
-			print("Mer and Morg:", percival_names, end="\r")
-
-		if players_playing_merlin[tell - 1] == 1:
-			print("Bad:", bad_names, end="\r")
-
-		if players_playing_bad[tell - 1] == 1:
-			print("Bad:", bad_names, end="\r")
-
+			print(f"You are Percival. Mer and Morg: {', '.join(percival_names)}", end="\r")
+		elif players_playing_merlin[tell - 1] == 1:
+			print(f"You are Merlin. Bad: {', '.join(bad_names)}", end="\r")
+		elif players_playing_merlin[tell - 1] == 1:
+			print(f"You are The Assassin. Other Bad: {', '.join(bad_names)}", end="\r")
+		elif players_playing_morgana[tell - 1] == 1:
+			print(f"You are Morgana. Other Bad: {', '.join(bad_names)}", end="\r")
+		elif players_playing_bad[tell - 1] == 1:
+			print(f"You are Bad. Other Bad: {', '.join(bad_names)}", end="\r")
+		else:
+			print("You are a knight of the round table", end="\r")
 		time.sleep(3)
-		print("                                          ", end="\r")
+		print("                                                            ", end="\r")
 
 print(
  "All players have viewed their roles. We can now move on to play the game")
@@ -314,37 +329,54 @@ denied_quests = 0
 passed_quests = 0
 
 # loop through 5 quests (n is quest number)
-for n in range(5):
-	accept = []
-	pass_quest = []
-	print(
-	 f"Quest {n + 1} Started. {player_names[random.randint(0, players - 1)]} is the leader."
-	)
-	players_on_team = pick_team(n + 1, players)
-	print(players_on_team)
-	for o in range(players):
-		print(f"{player_names[o]}, do you accept this team? Type 'y' or 'n'")
-		validentry = 0
-		while validentry == 0:
-			acceptst = input("")
-			if acceptst == "y" or acceptst == "n":
-				validentry = 1
-				accept.append(int(acceptst))
-	if accept.count(1) <= players / 2:
-		print("Denied. :(")
-		denied_quests += 1
-		n -= 1
-		if denied_quests == 5:
-			print("Minions of Mordred win.")
-	else:
-		print("Accepted. :)")
+#for n in range(5):
+#	accept = []
+#	pass_quest = []
+#	print(
+#	 f"Quest {n + 1} Started. {player_names[random.randint(0, players - 1)]} is the leader."
+#	)
+#	players_on_team = pick_team(n + 1, players)
+#	print(players_on_team)
+#	for o in range(players):
+#		print(f"{player_names[o]}, do you accept this team? Type 'y' or 'n'")
+#		validentry = 0
+#		while validentry == 0:
+#			acceptst = input("")
+#			if acceptst == "yes" or acceptst == "y" or acceptst == "no" or acceptst == "n":
+#				validentry = 1
+#				accept.append(int(acceptst))
+#
+#	if accept.count(1) <= players / 2:
+#		print("Denied. :(")
+#		denied_quests += 1
+#		n -= 1
+#		if denied_quests == 5:
+#			print("Minions of Mordred win.")
+#	else:
+#		print("Accepted. :)")
 
+failed_quests = 0
+passed_quests = 0
+denied_teams = 0
+
+
+while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
+	for quests in range(5):
+		print(
+	f"Quest {quests + 1} Started. {player_names[random.randint(0, players - 1)]} is the leader."
+		)
+		players_on_team = pick_team(quests + 1, players)
+		print(players_on_team)
+		
+	
+	## 
+	## decide PASS or fail for quest
+	##
 	for p in range(len(players_on_team)):
 		print("Everyone apart from ", player_names[p], "look away")
 		print("Do you PASS or FAIL? wait for this to go away", end="\r")
 		time.sleep(2)
 		print("                                                  ", end="\r")
-		pass_quest.append(input(""))
 		print("                               ", end="\r")
 	if pass_quest.count("FAIL") > 0:
 		print("QUEST FAILED!")
