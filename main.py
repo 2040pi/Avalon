@@ -11,14 +11,36 @@ players_playing_bad = []
 player_side = []
 players_playing_merlin = []
 
+
 ##
 ## pick_team - start
 ##
-def pick_team(quest_number):
+def pick_team(quest_number, players):
 	quest_teams = [[2, 2, 2, 3, 3, 3], [3, 3, 3, 4, 4, 4], [2, 4, 3, 4, 4, 4],
-								 [3, 3, 4, 5, 5, 5], [3, 4, 4, 5, 5, 5]]
+	               [3, 3, 4, 5, 5, 5], [3, 4, 4, 5, 5, 5]]
+	team_size = quest_teams[quest_number - 1][players - 5]
+	players_on_team = []
+	print("Pick", team_size, "players")
+	for m in range(team_size):
+		validentry = 0
+		while validentry == 0:
+			playerst = input(
+			 f"Enter the ID of player for quest {quest_number}, position {m + 1}: ")
+			if playerst.isnumeric():
+				player = (int(playerst) - 1)
+				if player < players:
+					validentry = 1
+				else:
+					print("That number is too high")
+			else:
+				print("YOU NEED TO TYPE IN A NUMBER YOU IDIOT!!!!")
+		players_on_team.append(player)
 	return players_on_team
 
+
+##
+## end of functions - start of main code
+##
 
 merlin = ["Merlin", 1, 0, 0, 0, 1, 0, 0, 1]
 assassin = ["Assassin", 2, 1, 1, 1, 0, 0, 1, 0]
@@ -128,11 +150,13 @@ print("Good players: ", good_players)
 print("Bad players:  ", bad_players)
 
 if good_players + bad_players > players:
-	print("Error: Too many characters added - %d required, %d entered", players, good_players + bad_players)
+	print("Error: Too many characters added - %d required, %d entered", players,
+	      good_players + bad_players)
 	exit()
 
 if good_players + bad_players < players:
-	print("Error: Too few characters added - %d required, %d entered", players, good_players + bad_players)
+	print("Error: Too few characters added - %d required, %d entered", players,
+	      good_players + bad_players)
 	exit()
 
 if bad_players != bad_per_player[players - 1]:
@@ -156,10 +180,11 @@ for q in range(players):
 random.shuffle(players_playing)
 
 for a in range(0, players_count):
-	if players_playing[a].startswith('Sir') or players_playing[a].startswith('Mer') or players_playing[a].startswith('Per'):
-		 players_playing_bad.append(0)
+	if players_playing[a].startswith('Sir') or players_playing[a].startswith(
+	  'Mer') or players_playing[a].startswith('Per'):
+		players_playing_bad.append(0)
 	else:
-	 	 players_playing_bad.append(1)
+		players_playing_bad.append(1)
 
 players_playing_morgana = []
 
@@ -190,9 +215,14 @@ for e in range(0, len(players_playing_bad)):
 bad_numbers = [name for name in bad_numbers if name != ""]
 print(bad_numbers)
 bad_names = []
-for q in range(len(bad_numbers)):
-	bad_names.append(player_names[bad_numbers[q] - 1])
+# Populate bad_names list
+for index in range(len(bad_numbers)):
+	bad_names.append(player_names[bad_numbers[index] - 1])
+
+# Display the bad_names list
 print(bad_names)
+
+# Initialize lists with empty strings
 percival_numbers = [""] * players_count
 players_playing_percival = [""] * players_count
 percival_reveal = [""] * players_count
@@ -222,42 +252,60 @@ for r in range(len(percival_reveal)):
 	percival_names.append(player_names[percival_reveal[r] - 1])
 
 # list all player numbers and names
+print("All players are:")
 for z in range(len(player_names)):
-	print(player_names[z], ":", z+1 )
+	print(player_names[z], ":", z + 1)
 
 # show each player what character they are
 # TODO - check for duplicate numbers
 
-validentry = 0
-while validentry == 0:
-	tellstr = input("What is your player number? ")
-	if tellstr.isnumeric():
-		tell = (int(tellstr) - 1)
-		if tell < players:
-			validentry = 1
-		else:
-			print("That number is too high")
-	else:
-		print("YOU NEED TO TYPE IN A NUMBER YOU IDIOT!!!!")
+print("Next step is to ask everyoe their player number and draw a character")
 
-	input("Everyone else look away and press enter")
-	print(players_playing[tell], player_side[tell], end="\r")
-	time.sleep(2)
-	
-	if players_playing_percival[tell] == 1:
-		print("Mer and Morg:", percival_names, end="\r")
-	
-	if players_playing_merlin[tell] == 1:
-		print("Bad:", bad_names, end="\r")
-	
-	if players_playing_bad[tell] == 1:
-		print("Bad:", bad_names, end="\r")
-	
-	time.sleep(3)
-	print("                                          ", end="\r")
+players_remaining = []
+for i in range(0, players_count):
+	players_remaining.append(i + 1)
+print("debug: Players remaining: ", players_remaining)
+
+while len(players_remaining) != 0:
+	#print("debug: Players remaining: ", players_remaining)
+	validentry = 0
+	while validentry == 0:
+		tellstr = input("What is your player number? ")
+		if tellstr.isnumeric():
+			tell = int(tellstr)
+			if tell < players + 1:
+				validentry = 1
+				players_remaining.remove(tell+1)
+				#print("debug:", tell, "Players remaining: ", players_remaining)
+			else:
+				print("Error: That number is too high")
+		else:
+			print("Error: YOU NEED TO TYPE IN A NUMBER YOU IDIOT!!!!")
+		if (tell in players_remaining):
+			print("Valid :-)")
+			input("Everyone else now look away,  and", player_names[tell],
+			      "press enter")
+			print(players_playing[tell], player_side[tell], end="\r")
+			time.sleep(2)
+
+		if players_playing_percival[tell - 1] == 1:
+			print("Mer and Morg:", percival_names, end="\r")
+
+		if players_playing_merlin[tell - 1] == 1:
+			print("Bad:", bad_names, end="\r")
+
+		if players_playing_bad[tell - 1] == 1:
+			print("Bad:", bad_names, end="\r")
+
+		time.sleep(3)
+		print("                                          ", end="\r")
 
 print(
  "All players have viewed their roles. We can now move on to play the game")
+
+##
+## start the quests
+##
 
 players_on_team = []
 
@@ -265,13 +313,14 @@ failed_quests = 0
 denied_quests = 0
 passed_quests = 0
 
+# loop through 5 quests (n is quest number)
 for n in range(5):
 	accept = []
 	pass_quest = []
 	print(
 	 f"Quest {n + 1} Started. {player_names[random.randint(0, players - 1)]} is the leader."
 	)
-	players_on_team = pick_team(n + 1)
+	players_on_team = pick_team(n + 1, players)
 	print(players_on_team)
 	for o in range(players):
 		print(f"{player_names[o]}, do you accept this team? Type 'y' or 'n'")
@@ -290,63 +339,32 @@ for n in range(5):
 	else:
 		print("Accepted. :)")
 
-for p in range(len(players_on_team)):
-	print("Everyone apart from ", player_names[p], "look away")
-	print("Do you PASS or FAIL? wait for this to go away", end="\r")
-	time.sleep(2)
-	print("                                                  ", end="\r")
-	pass_quest.append(input(""))
-	print("                               ", end="\r")
-if pass_quest.count("FAIL") > 0:
-	print("QUEST FAILED!")
-	failed_quests += 1
-	if failed_quests == 3:
-		print("Minions of Mordred win.")
-else:
-	print("QUEST PASSED")
-	passed_quests += 1
-	if passed_quests == 3:
-		print("Loyal servants of Arthur have secured the victory")
+	for p in range(len(players_on_team)):
+		print("Everyone apart from ", player_names[p], "look away")
+		print("Do you PASS or FAIL? wait for this to go away", end="\r")
+		time.sleep(2)
+		print("                                                  ", end="\r")
+		pass_quest.append(input(""))
+		print("                               ", end="\r")
+	if pass_quest.count("FAIL") > 0:
+		print("QUEST FAILED!")
+		failed_quests += 1
+		if failed_quests == 3:
+			print("Minions of Mordred win.")
+	else:
+		print("QUEST PASSED")
+		passed_quests += 1
+		if passed_quests == 3:
+			print("Loyal servants of Arthur have secured the victory")
+			print(
+			 "Assassin, it's time to guess Merlin. Enter the ID of the player you suspect:"
+			)
+			assassin_guess = int(input())
 
-		print(
-		 "Assassin, it's time to guess Merlin. Enter the ID of the player you suspect:"
-		)
-		assassin_guess = int(input())
+			if players_playing[assassin_guess - 1] == "Merlin":
+				print("Assassin's guess is correct! Minions of Mordred win.")
+			else:
+				print("Assassin's guess is incorrect! Loyal servants of Arthur win.")
 
-		if players_playing[assassin_guess - 1] == "Merlin":
-			print("Assassin's guess is correct! Minions of Mordred win.")
-		else:
-			print("Assassin's guess is incorrect! Loyal servants of Arthur win.")
 print("Denied Teams", denied_quests, "/5")
 print("Failed Quests", failed_quests, "/3")
-
-
-
-
-
-team_size = quest_teams[quest_number - 1][players - 5]
-print(team_size, "test")
-players_on_team = []
-print("Pick", team_size, "players")
-for m in range(team_size):
-		validentry = 0
-		while validentry == 0:
-			playerst = input(
-			 f"Enter the ID of player for quest {quest_number}, position {m + 1}: ")
-			if playerst.isnumeric():
-				player = (int(playerst) - 1)
-				if player < players:
-					validentry = 1
-				else:
-					print("That number is too high")
-			else:
-				print("YOU NEED TO TYPE IN A NUMBER YOU IDIOT!!!!")
-
-		players_on_team.append(player)
-
-
-
-
-##
-## pick_team - end
-##
