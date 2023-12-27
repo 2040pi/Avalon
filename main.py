@@ -358,6 +358,7 @@ passed_quests = 0
 failed_quests = 0
 passed_quests = 0
 denied_teams = 0
+pass_quest = []
 
 while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
 	for quests in range(5):
