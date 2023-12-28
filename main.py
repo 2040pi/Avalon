@@ -17,7 +17,7 @@ players_playing_merlin = []
 ##
 def pick_team(quest_number, players):
 	quest_teams = [[2, 2, 2, 3, 3, 3], [3, 3, 3, 4, 4, 4], [2, 4, 3, 4, 4, 4],
-				   [3, 3, 4, 5, 5, 5], [3, 4, 4, 5, 5, 5]]
+	               [3, 3, 4, 5, 5, 5], [3, 4, 4, 5, 5, 5]]
 	team_size = quest_teams[quest_number - 1][players - 5]
 	players_on_team = []
 	print("Pick", team_size, "players")
@@ -151,12 +151,12 @@ if percival_in_play:
 
 if good_players + bad_players > players:
 	print("Error: Too many characters added - %d required, %d entered", players,
-		  good_players + bad_players)
+	      good_players + bad_players)
 	exit()
 
 if good_players + bad_players < players:
 	print("Error: Too few characters added - %d required, %d entered", players,
-		  good_players + bad_players)
+	      good_players + bad_players)
 	exit()
 
 if bad_players != bad_per_player[players - 1]:
@@ -300,7 +300,7 @@ while len(players_remaining) != 0:  #
 	if validentry:
 		if players_playing_percival[tell - 1] == 1:
 			print(f"You are Percival. Mer and Morg: {', '.join(percival_names)}",
-				  end="\r")
+			      end="\r")
 		elif players_playing_merlin[tell - 1] == 1:
 			print(f"You are Merlin. Bad: {', '.join(bad_names)}", end="\r")
 		elif players_playing_merlin[tell - 1] == 1:
@@ -312,8 +312,7 @@ while len(players_remaining) != 0:  #
 		else:
 			print("You are a knight of the round table", end="\r")
 		time.sleep(3)
-		print("															",
-			  end="\r")
+		print("															", end="\r")
 
 print(
  "All players have viewed their roles. We can now move on to play the game")
@@ -325,37 +324,6 @@ print(
 players_on_team = []
 
 failed_quests = 0
-denied_quests = 0
-passed_quests = 0
-
-# loop through 5 quests (n is quest number)
-#for n in range(5):
-#	accept = []
-#	pass_quest = []
-#	print(
-#	 f"Quest {n + 1} Started. {player_names[random.randint(0, players - 1)]} is the leader."
-#	)
-#	players_on_team = pick_team(n + 1, players)
-#	print(players_on_team)
-#	for o in range(players):
-#		print(f"{player_names[o]}, do you accept this team? Type 'y' or 'n'")
-#		validentry = 0
-#		while validentry == 0:
-#			acceptst = input("")
-#			if acceptst == "yes" or acceptst == "y" or acceptst == "no" or acceptst == "n":
-#				validentry = 1
-#				accept.append(int(acceptst))
-#
-#	if accept.count(1) <= players / 2:
-#		print("Denied. :(")
-#		denied_quests += 1
-#		n -= 1
-#		if denied_quests == 5:
-#			print("Minions of Mordred win.")
-#	else:
-#		print("Accepted. :)")
-
-failed_quests = 0
 passed_quests = 0
 denied_teams = 0
 pass_quest = []
@@ -363,7 +331,9 @@ pass_quest = []
 while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
 	for quests in range(5):
 		accept_num = 0
-		print(f"Quest {quests + 1} Started. {player_names[random.randint(0, players - 1)]} is the leader.")
+		print(
+		 f"Quest {quests + 1} Started. {player_names[random.randint(0, players - 1)]} is the leader."
+		)
 		players_on_team = pick_team(quests + 1, players)
 		print(players_on_team)
 		for o in range(players):
@@ -378,7 +348,7 @@ while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
 		accept_num += 0
 		if accept_num < players / 2:
 			print("Team Denied")
-		else:	
+		else:
 			print("Team Accepted")
 			for p in range(len(players_on_team)):
 				print("Do you PASS or FAIL? wait for this to go away", end="\r")
@@ -390,14 +360,17 @@ while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
 				if failed_quests == 3:
 					print("Minions of Mordred win.")
 			else:
-							print("QUEST PASSED")
-							passed_quests += 1
-							if passed_quests == 3:
-								print("Loyal servants of Arthur have secured the victory")
-								assassin_guess = int(input("Assassin, it's time to guess Merlin. Enter the ID of the player you suspect: "))
-								if players_playing[assassin_guess - 1] == "Merlin":
-									print("Assassin's guess is correct! Minions of Mordred win.")
-								else:
-									print("Assassin's guess is incorrect! Loyal servants of Arthur win.")
+				print("QUEST PASSED")
+				passed_quests += 1
+				if passed_quests == 3:
+					print("Loyal servants of Arthur have secured the victory")
+					assassin_guess = int(
+					 input(
+					  "Assassin, it's time to guess Merlin. Enter the ID of the player you suspect: "
+					 ))
+					if players_playing[assassin_guess - 1] == "Merlin":
+						print("Assassin's guess is correct! Minions of Mordred win.")
+					else:
+						print("Assassin's guess is incorrect! Loyal servants of Arthur win.")
 print(f"Denied Teams {denied_quests}/5")
 print(f"Failed Quests {failed_quests}/3")
