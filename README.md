@@ -27,7 +27,7 @@ The script defines a set of characters, both good and bad, with unique abilities
 ## Gameplay
 
 1. Players enter their names and are assigned characters randomly.
-2. The script reveals each player's character privately, with special information for characters like Merlin and the Assassin.
+2. The script reveals each player's character privately, with special information for characters like Merlin and Percival.
 3. The game then progresses through a series of quests, where players form teams, and the success or failure of each quest is determined by the choices made by the team members.
 4. The game ends when either the loyal servants or the minions of Mordred achieve their victory conditions.
 
