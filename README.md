@@ -1,5 +1,3 @@
-Certainly! Here's the provided script converted to Markdown:
-
 # Introduction
 
 This Python script implements a simplified version of the board game "Avalon," a social deduction game where players take on the roles of characters from Arthurian legend. The game involves quests, alliances, and hidden identities, making it an engaging experience for a group of players.

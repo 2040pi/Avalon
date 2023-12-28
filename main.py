@@ -7,6 +7,7 @@
 import random
 import time
 
+
 players_playing_bad = []
 player_side = []
 players_playing_merlin = []
@@ -146,8 +147,8 @@ if percival_in_play:
 #	players_count += 1
 #	players_playing.append(mordred[0])
 
-#print("Good players: ", good_players)
-#print("Bad players:  ", bad_players)
+print("Good players: ", good_players)
+print("Bad players:  ", bad_players)
 
 if good_players + bad_players > players:
 	print("Error: Too many characters added - %d required, %d entered", players,
