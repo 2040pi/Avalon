@@ -346,7 +346,7 @@ while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
 			print("Team Denied")
 		else:
 			print("Team Accepted")
-			for i in players_on_team:
+			for i in range(len(players_on_team)):
 				while (validentry == False):
 					vote = getpass("Do you want the quest to PASS or FAIL? (You won't see your answer) ") 
 					if vote == "PASS" or vote == "pass" or vote == "P" or vote == "p":
