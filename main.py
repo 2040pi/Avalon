@@ -14,12 +14,13 @@ debug = False
 ##
 ## pick_team - start
 ##
-def pick_team(quest_number, players):
+def pick_team(quest_number, players, leader):
 	quest_teams = [[2, 2, 2, 3, 3, 3], [3, 3, 3, 4, 4, 4], [2, 4, 3, 4, 4, 4],
 	               [3, 3, 4, 5, 5, 5], [3, 4, 4, 5, 5, 5]]
 	team_size = quest_teams[quest_number - 1][players - 5]
 	players_on_team = []
 	print("Pick", team_size, "players")
+	players_on_team.append(leader)
 	for m in range(team_size):
 		validentry = 0
 		while validentry == 0:
@@ -61,26 +62,68 @@ players_count = 2
 players_playing = [merlin[0], assassin[0]]
 bad_per_player = [0, 0, 0, 0, 2, 2, 3, 3, 3, 4]
 
-players = 6
+validentry = 0
+while validentry:
+	
+	players = input("How many people are playing? (5-10)")
+	if players.isnumeric():
+		playernum = int(players)
+		if playernum > max_players and playernum < 5:
+			validentry = 1
+			players = playernum
+	
 
 ## can we calculate these based on the number of players?
-percival_in_play = 1
+#percival_in_play = 1
 #oberon_in_play = 0
 #mordred_in_play = 0
-good1_in_play = 1
-good2_in_play = 1
-good3_in_play = 0
-good4_in_play = 0
-bad1_in_play = 0
-bad2_in_play = 0
+#good1_in_play = 1
+#good2_in_play = 1
+#good3_in_play = 0
+#good4_in_play = 0
+#bad1_in_play = 0
+#bad2_in_play = 0
 
-if players < 5:
-	print("Need More Players")
-	exit()
 
-if players > max_players:
-	print("Too Many Players")
-	exit()
+
+if players == 5:
+	percival_in_play = 1
+	good1_in_play = 1
+
+elif players == 6:
+	percival_in_play = 1
+	good1_in_play = 1
+	good2_in_play = 1
+
+elif players == 7:
+	percival_in_play = 1
+	good1_in_play = 1
+	good2_in_play = 1
+	bad1_in_play = 1
+
+elif players == 8:
+	percival_in_play = 1
+	good1_in_play = 1
+	good2_in_play = 1
+	good3_in_play = 1
+	bad1_in_play = 1
+
+elif players == 9:
+	percival_in_play = 1
+	good1_in_play = 1
+	good2_in_play = 1
+	good3_in_play = 1
+	good4_in_play = 1
+	bad1_in_play = 1
+
+elif players == 10:
+	percival_in_play = 1
+	good1_in_play = 1
+	good2_in_play = 1
+	good3_in_play = 1
+	good4_in_play = 1
+	bad1_in_play = 1
+	bad2_in_play = 1
 
 print("Merlin Added")
 
@@ -327,10 +370,11 @@ pass_quest = []
 while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
 	for quests in range(5):
 		accept_num = 0
+		quest_leader = player_names[random.randint(0, players - 1)]
 		print(
-		 f"Quest {quests + 1} Started. {player_names[random.randint(0, players - 1)]} is the leader."
+		 f"Quest {quests + 1} Started. {quest_leader} is the leader."
 		)
-		players_on_team = pick_team(quests + 1, players)
+		players_on_team = pick_team(quests + 1, players, quest_leader)
 		print(players_on_team)
 		print(players)
 		
@@ -352,6 +396,7 @@ while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
 			for i in range(len(players_on_team)):
 				validentry = False
 				while (validentry == False):
+					print(players_on_team[i])
 					vote = getpass("Do you want the quest to PASS or FAIL? (You won't see your answer) ") 
 					if vote == "PASS" or vote == "pass" or vote == "P" or vote == "p":
 						pass_quest.append("p")
@@ -379,8 +424,8 @@ while failed_quests < 3 and passed_quests < 3 and denied_teams < 5:
 				 ))
 					if players_playing[assassin_guess - 1] == "Merlin":
 						print("Assassin's guess is correct! Minions of Mordred win.")
-				else:
-					print("Assassin's guess is incorrect! Loyal servants of Arthur win.")
+					else:
+						print("Assassin's guess is incorrect! Loyal servants of Arthur win.")
 
 
 ##
